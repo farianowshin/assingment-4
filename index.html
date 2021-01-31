@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curise Booking</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section id="first">
+    <!--Header and Menu Section-->
+        <header class="container">
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a class="active" href="#">Sign Up</a></li>
+                </ul>
+            </nav>
+        </header>
+    
+        <!--Booking Section-->
+        <main class="main-content container">
+    
+                <div class="booking-content">
+                    <h1>Cruise Queen</h1>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                </div>
+        
+        
+                <div class="booking-form">
+                    <h3>Book Ocean Time</h3>
+                    <div class="input-group">
+                        <label for="">Flying From</label>
+                        <input class="inp-style" type="text" name="" placeholder="Dhake, Bangladesh">
+                    </div>
+                    <div class="input-group">
+                        <label for="">Flying To</label>
+                        <input class="inp-style" type="text" name="" placeholder="New York, United States">
+                    </div>
+                    <div class="inputs">
+                        <div class="input-group">
+                            <label" for="">Departure</label>
+                            <input class="inp-style" type="date" name="">
+                        </div>
+                        <div class="input-group">
+                            <label for="">Return</label>
+                            <input class="inp-style" type="date" name="">
+                        </div>
+                    </div>
+                    <div class="input-group f-class">
+                        <div>
+                            <label for="">First Class ($150)</label>
+                            <input id="firstClass-count" class="inp-style inp-width" type="number" name="" value="0">
+                        </div>
+                        <div>
+                            <button class="plus-minus-btn" onclick="handleQuantity('firstClass',true)">+</button>
+                            <button class="plus-minus-btn" onclick="handleQuantity('firstClass',false)">-</button>
+                            <!--<p> <span id="economyIncrease">+</span> <span id="economyDecrease">-</span> </p> -->
+                        </div>
+                    </div>
+                    
+                    <div class="input-group f-class">
+                        <div>
+                            <label for="">Economy ($100)</label>
+                            <input id="economy-count" class="inp-style inp-width" type="number" name="" value="0">
+                        </div>
+                        <div>
+                            <button class="plus-minus-btn" onclick="handleQuantity('economy',true)">+</button>
+                            <button class="plus-minus-btn" onclick="handleQuantity('economy',false)">-</button>
+                            <!--<p> <span id="economyIncrease">+</span> <span id="economyDecrease">-</span> </p> -->
+                        </div>
+                    </div>
+                    <div class="calculations">
+                        <div class="amount">
+                            <div class="left">
+                                <p>Subtotal</p>
+                            </div>
+                            <div class="right">
+                                <p>$<span id="total">00</span></p>
+                            </div>
+                        </div>
+        
+                        <div class="amount">
+                            <div class="left">
+                                <p>Charge 10% VAT</p>
+                            </div>
+                            <div class="right">
+                                <p>$<span id="vat">00</span></p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="amount">
+                            <div class="left">
+                                <h4>Total</h4>
+                            </div>
+                            <div class="right">
+                                <p>$<span id="grandTotal">00</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="bookingButton" class="btn-style">Book Now</button>
+                </div>
+        </section>
+
+    <section id="extra">
+        <div class="container">
+            <div id="confirm">
+                        <p id="heading"><b>Cruise Queen</b></p><br>
+                        <p>You have Confirmed : </p><br>
+                        <p><span id="firstConfirm">0</span> First Class Tickets.</p><br>
+                        <p><span id="economyConfirm">0</span> Economy Tickets.</p><br>
+                        <p>Total bill is : $<span id="bill">00</span></p><br>
+                        <p>Your booking is confirmed.</p>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <script>
+
+        function integerConvert(type){
+            const ticket=document.getElementById(type + '-count').value;
+            const count=parseInt(ticket);
+            return count;
+        }
+        
+        function handleQuantity(type, isIncrease){
+            const ticketCount=integerConvert(type);
+            let ticketNewCount=ticketCount;
+            if(isIncrease==true){
+                ticketNewCount=ticketCount + 1;
+            }
+            if(isIncrease==false && ticketCount>0){
+                ticketNewCount=ticketCount - 1;
+            }
+            document.getElementById(type + '-count').value=ticketNewCount;
+            calculation();
+        }
+
+        function calculation(){
+            const firstClassRate=integerConvert('firstClass');
+            const firstClassAmount=firstClassRate * 150;
+
+            const economyRate=integerConvert('economy');
+            const economyAmount=economyRate * 100;
+
+            const total=firstClassAmount + economyAmount;
+            document.getElementById('total').innerText=total;
+
+            const vat= Math.round(total * 0.1);
+            document.getElementById('vat').innerText=vat;
+            
+            const grandTotal=total + vat ;
+            document.getElementById('grandTotal').innerText=grandTotal;
+        }
+
+        document.getElementById('bookingButton').addEventListener("click",function(){
+            document.getElementById('first').style.display='none';
+            document.getElementById('extra').style.display='block';
+            document.getElementById('firstConfirm').innerText=document.getElementById('firstClass-count').value;
+            document.getElementById('economyConfirm').innerText=document.getElementById('economy-count').value;
+            document.getElementById('bill').innerText=document.getElementById('grandTotal').innerText;
+        })
+    </script>
+
+    <!--Thank You-->
+</body>
+
+</html>
